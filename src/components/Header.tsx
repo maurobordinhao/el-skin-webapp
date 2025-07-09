@@ -1,0 +1,12 @@
+import React from 'react';
+
+
+function Header() {
+  return (
+    <h1>
+        AL SKIN
+    </h1>
+  );
+}
+
+export default Header;
