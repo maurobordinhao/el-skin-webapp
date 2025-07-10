@@ -1,0 +1,76 @@
+/* Container principal do header */
+.header-container {
+  font-family: Arial, sans-serif;
+  padding: 15px 5%;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #fff;
+}
+
+/* --- Seção Superior --- */
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+}
+
+.logo h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 8px 15px;
+  width: 50%;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 16px;
+  margin-right: 8px; /* Espaço entre o texto e o ícone */
+}
+
+/* Estilo para os ícones PNG */
+.header-icon {
+  height: 22px; /* Ajuste a altura conforme necessário */
+  width: 22px;  /* Ajuste a largura conforme necessário */
+  cursor: pointer;
+}
+
+/* --- Seção Inferior (Navegação) --- */
+.header-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+}
+
+.promo-link a {
+  text-decoration: none;
+  color: #d9534f;
+  font-weight: bold;
+  font-size: 16px;
+}
