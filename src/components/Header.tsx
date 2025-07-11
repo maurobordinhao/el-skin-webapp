@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import React from 'react';
 
 import searchIcon from '../assets/search.png';
@@ -36,13 +38,14 @@ const Header: React.FC = () => {
       {/* Seção Inferior (Navegação) */}
       <nav className="header-bottom">
         <ul className="nav-links">
-          <li><a href="#">Categorias</a></li>
-          <li><a href="#">Tipo de pele</a></li>
-          <li><a href="#">Necessidade</a></li>
-          <li><a href="#">Ingredientes</a></li>
+        <li><button className="nav-link">Categorias</button></li>
+        <li><button className="nav-link">Tipo de pele</button></li>
+        <li><button className="nav-link">Necessidade</button></li>
+        <li><button className="nav-link">Ingredientes</button></li>
+        <li><Link className="nav-link" to="/sobre">Sobre</Link></li>
         </ul>
-        <div className="promo-link">
-          <a href="#">Kits até 50% OFF</a>
+      <div className="promo-link">
+      <button className="nav-link promo">Kits até 50% OFF</button>
         </div>
       </nav>
     </header>
