@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-// Importando nossos componentes estilizados
+// Import dos componentes
 import {
   CarouselContainer,
   CarouselWrapper,
@@ -16,8 +16,7 @@ import {
 } from './Carousel.styles';
 
 // ===================================================================
-// ESTA É A PARTE CRÍTICA
-// Verifique se estes imports estão exatamente assim.
+// Import dos banners
 // ===================================================================
 import banner1 from '../assets/banner-1.jpg';
 import banner2 from '../assets/banner-2.jpg';
@@ -25,19 +24,19 @@ import banner3 from '../assets/banner-3.jpg';
 
 const slideData = [
   {
-    image: banner1, // Usando a variável importada
+    image: banner1, // variável importada
     subtitle: 'confira nossa linha',
     title: 'corporal',
     description: 'com benefícios além da hidratação',
   },
   {
-    image: banner2, // Usando a variável importada
+    image: banner2, // variável importada
     subtitle: 'descubra a linha',
     title: 'facial',
     description: 'resultados visíveis em poucas semanas',
   },
   {
-    image: banner3, // Usando a variável importada
+    image: banner3, // variável importada
     subtitle: 'para todos os momentos',
     title: 'essenciais',
     description: 'cuidados diários que transformam',
