@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-// Props que o nosso slider vai aceitar para se mover
+// Props do slider
 interface SliderProps {
   currentIndex: number;
 }
 
-// Props para as setas, para sabermos se é a da esquerda ou da direita
+// Props para as setas, esquerda ou da direita
 interface ArrowProps {
   direction: 'left' | 'right';
 }
@@ -25,8 +25,7 @@ export const CarouselWrapper = styled.div`
   height: 100%;
 `;
 
-// A mágica acontece aqui! O componente recebe a prop 'currentIndex'
-// e a usa para calcular a posição do 'transform'.
+// O componente recebe a prop 'currentIndex' para calcular a posição do 'transform'.
 export const CarouselSlider = styled.div<SliderProps>`
   display: flex;
   height: 100%;
