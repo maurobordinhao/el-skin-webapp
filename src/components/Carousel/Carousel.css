@@ -1,0 +1,55 @@
+.carousel-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.carousel-slide {
+  position: relative;
+  width: 100%;
+  height: 500px; /* altura fixa */
+  overflow: hidden;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* para manter a proporção */
+}
+
+.carousel-text {
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px 30px;
+  border-radius: 8px;
+  color: white;
+}
+
+.carousel-text h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.carousel-text button {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Setas */
+.slick-prev, .slick-next {
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+}
+
+.slick-prev::before, .slick-next::before {
+  font-size: 30px;
+  color: black;
+}
