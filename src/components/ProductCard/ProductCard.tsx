@@ -11,7 +11,7 @@ interface ProductCardProps {
   price: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ image, name, description, tags, price }) => {
+const ProductCard = ({ image, name, description, tags, price }: ProductCardProps) => {
   return (
     <div className="product-card">
       <img src={image} alt={name} />
