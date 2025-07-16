@@ -7,14 +7,14 @@
 .carousel-slide {
   position: relative;
   width: 100%;
-  height: 500px; /* altura fixa */
+  height: 500px; 
   overflow: hidden;
 }
 
 .carousel-slide img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* para manter a proporção */
+  object-fit: cover; 
 }
 
 .carousel-text {
@@ -42,14 +42,29 @@
   font-size: 16px;
 }
 
-/* Setas */
-.slick-prev, .slick-next {
+
+.slick-prev,
+.slick-next {
   z-index: 2;
   width: 40px;
   height: 40px;
 }
 
-.slick-prev::before, .slick-next::before {
+
+.slick-prev::before,
+.slick-next::before {
   font-size: 30px;
-  color: black;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  padding: 8px;
+}
+
+
+.slick-prev {
+  left: 15px !important;
+}
+
+.slick-next {
+  right: 15px !important;
 }

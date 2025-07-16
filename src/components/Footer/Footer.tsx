@@ -6,6 +6,8 @@ import {
   faTwitter, faLinkedinIn, faSpotify
 } from '@fortawesome/free-brands-svg-icons';
 
+import { Link } from 'react-router-dom'; 
+
 const Footer = () => {
   return (
     <footer className="footer">
@@ -21,30 +23,35 @@ const Footer = () => {
 
       <div className="footer-links">
         <div>
-          <h4>Sobre a AL SKIN</h4>
+          <h4>
+            <Link to="/sobre" className='footer-title-link'>
+            Sobre a AL SKIN
+            </Link>
+            </h4>
           <ul>
-            <li>quem somos</li>
-            <li>time AL SKIN</li>
-            <li>carreiras</li>
+            <li><Link to="/sobre">Quem somos</Link></li> 
+            <li>Time AL SKIN</li>
+            <li>Carreiras</li>
           </ul>
         </div>
         <div>
           <h4>Loja AL SKIN</h4>
           <ul>
-            <li>lojas físicas</li>
-            <li>devolução</li>
+            <li>Lojas físicas</li>
+            <li>Devolução</li>
           </ul>
         </div>
         <div>
-          <h4>Atendimento</h4>
+          <h4>Fale conosco</h4>
           <ul>
-            <li>oi@alskin.com.br</li>
-            <li>ajuda</li>
+            <li><a href="mailto:oi@alskin.com.br">oi@alskin.com.br</a></li>
+            <li>Ajuda</li>
           </ul>
         </div>
         <div>
-          <h4>Blog AL SKIN</h4>
+          <h4>Mais sobre a AL SKIN</h4>
           <ul>
+            <li>Blog</li>
             <li>Minha pele</li>
             <li>Ingredientes</li>
           </ul>

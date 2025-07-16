@@ -1,0 +1,50 @@
+.sobre-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  padding: 40px;
+}
+
+.sobre-texto {
+  flex: 1;
+  min-width: 300px;
+}
+
+.sobre-lateral {
+  flex: 1;
+  min-width: 300px;
+}
+
+.sobre-texto h2 {
+  margin-bottom: 16px;
+}
+
+.sobre-texto h4 {
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+.sobre-texto p {
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.sobre-img {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.sobre-contato {
+  margin-top: 32px;
+}
+
+.btn-fale {
+  background-color: #94476f;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+}

@@ -1,19 +1,15 @@
-import React from 'react';
-import './App.css';
-import Header from './components/Header/Header';
-import Carousel from './components/Carousel/Carousel';
-import ProductShowcase from './components/ProductShowcase/ProductShowcase';
-import Footer from './components/Footer/Footer';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import AppRoutes from './routes';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Carousel />
-      <ProductShowcase />
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   );
 }
 
