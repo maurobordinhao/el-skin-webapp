@@ -1,16 +1,16 @@
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-
+// App.tsx
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes';
+import { CartProvider } from './contexts/CartContext';
 
-function App() {
-  return (
+const App = () => (
+  <CartProvider>
     <BrowserRouter>
       <AppRoutes />
     </BrowserRouter>
-  );
-}
+  </CartProvider>
+  
+);
 
 export default App;

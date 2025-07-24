@@ -1,39 +1,54 @@
+// src/components/Header.tsx
 import React, { useState } from 'react';
+import CartModal from '../CartModal/CartModal';
+import { useCart } from '../../contexts/CartContext';
 import './Header.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faBagShopping } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
-const Header = () => {
+type HeaderProps = {
+  onSearch: (term: string) => void;
+};
+
+const Header = ({ onSearch }: HeaderProps) => {
   const [textoBusca, setTextoBusca] = useState('');
+  const { cart, showModal, setShowModal } = useCart();
+
+  const totalItems = cart.reduce((sum, item) => sum + item.quantidade, 0);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTextoBusca(e.target.value);
-  };
-
-  const onClickSearch = () => {
-    console.log(`Você pesquisou por: ${textoBusca}`);
+    const value = e.target.value;
+    setTextoBusca(value);
+    onSearch(value);
   };
 
   return (
     <header className="header-container">
       <div className="top-header">
-        <div className="logo">AL SKIN</div>
+        <div className="left-section">
+          <div className="logo">AL SKIN</div>
+        </div>
 
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="O que você está procurando?"
-            value={textoBusca}
-            onChange={handleOnChange}
-          />
-          <button onClick={onClickSearch} className="search-button">
-            <FontAwesomeIcon icon={faSearch} className="search-icon" />
-          </button>
+        <div className="center-section">
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="O que você está procurando?"
+              value={textoBusca}
+              onChange={handleOnChange}
+            />
+            <button className="search-button">
+              <FontAwesomeIcon icon={faSearch} />
+            </button>
+          </div>
         </div>
 
         <div className="right-section">
-          <FontAwesomeIcon icon={faBagShopping} className="cart-icon" />
+          <button onClick={() => setShowModal(true)} className="cart-button">
+            <FontAwesomeIcon icon={faCartShopping} />
+            {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
+          </button>
           <span className="promo-banner">
             Kits até <strong>50% OFF</strong>
           </span>
@@ -48,6 +63,8 @@ const Header = () => {
           <li>Ingredientes</li>
         </ul>
       </nav>
+
+      {showModal && <CartModal onClose={() => setShowModal(false)} />}
     </header>
   );
 };

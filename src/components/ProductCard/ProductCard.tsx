@@ -1,38 +1,27 @@
 import React from 'react';
 import './ProductCard.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import { IProduct } from '../../service/productService';
+import { useCart } from '../../contexts/CartContext';
 
-interface ProductCardProps {
-  image: string;
-  name: string;
-  description: string;
-  tags: string[];
-  price: string;
-}
+type ProductCardProps = {
+  product: IProduct;
+};
 
-const ProductCard = ({ image, name, description, tags, price }: ProductCardProps) => {
+const ProductCard = ({ product }: ProductCardProps) => {
+  const { addToCart } = useCart();
+
   return (
     <div className="product-card">
-      <img src={image} alt={name} />
-      
-      <div className="card-info">
-        <h3>{name}</h3>
-        <p>{description}</p>
-
-        <div className="tag-container">
-          {tags.map((tag, i) => (
-            <span key={i} className={`tag ${tag.toLowerCase()}`}>{tag}</span>
-          ))}
-        </div>
-
-        <div className="bottom-section">
-          <span className="price">{price}</span>
-          <button className="buy-button">
-            comprar <FontAwesomeIcon icon={faShoppingBag} />
-          </button>
-        </div>
-      </div>
+      <img
+        src={product.image}
+        alt={product.name}
+        className="product-image"
+      />
+      <h3 className="product-name">{product.name}</h3>
+      <p className="product-price">R$ {product.price.toFixed(2)}</p>
+      <button className="buy-button" onClick={() => addToCart(product)}>
+        Comprar
+      </button>
     </div>
   );
 };

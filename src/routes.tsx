@@ -1,22 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Carousel from './components/Carousel/Carousel';
 import ProductShowcase from './components/ProductShowcase/ProductShowcase';
 import Sobre from './pages/Sobre';
-import NotFound from './pages/NotFound'; 
+import NotFound from './pages/NotFound';
 
 const AppRoutes = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <Routes>
       <Route
         path="/"
         element={
           <>
-            <Header />
+            <Header onSearch={setSearchTerm} />
             <Carousel />
-            <ProductShowcase />
+            <ProductShowcase searchTerm={searchTerm} />
             <Footer />
           </>
         }
@@ -25,7 +28,7 @@ const AppRoutes = () => {
         path="/sobre"
         element={
           <>
-            <Header />
+            <Header onSearch={() => {}} />
             <Sobre />
             <Footer />
           </>
@@ -35,7 +38,7 @@ const AppRoutes = () => {
         path="*"
         element={
           <>
-            <Header />
+            <Header onSearch={() => {}} />
             <NotFound />
             <Footer />
           </>
