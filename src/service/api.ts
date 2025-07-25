@@ -9,8 +9,7 @@ const api = axios.create({
 
 // Interceptor das requisições
 api.interceptors.request.use(
-  (config) => {
-    // Aqui você pode adicionar tokens de autenticação, logs, etc.
+  (config) => {    
     console.log(`[API] ${config.method?.toUpperCase()} ${config.url}`);
     return config;
   },

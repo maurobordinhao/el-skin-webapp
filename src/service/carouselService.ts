@@ -1,5 +1,5 @@
 import api from './api';
-import { API_CONFIG } from '../config/APIConfig'; // Certifique-se do caminho correto
+import { API_CONFIG } from '../config/APIConfig'; 
 
 export interface ICarouselItem {
   id: number;
