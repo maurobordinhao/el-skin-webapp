@@ -1,7 +1,52 @@
+/* CartModal.css */
+.cart-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
+
+.cart-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100%;
+  background: white;
+  padding: 24px;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.cart-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.close-button {
+  align-self: flex-end;
+  background: transparent;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+}
+
+.cart-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 .cart-item {
   display: flex;
-  align-items: center;
   gap: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
 }
 
 .cart-item img {
@@ -9,10 +54,6 @@
   height: 60px;
   object-fit: cover;
   border-radius: 4px;
-}
-
-.cart-info {
-  flex: 1;
 }
 
 .quantity-controls {
@@ -23,18 +64,27 @@
 }
 
 .quantity-controls button {
-  padding: 4px 8px;
-  background-color: #eee;
-  border: 1px solid #ccc;
+  background: #8f4fff;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 16px;
   cursor: pointer;
 }
 
 .remove-button {
   margin-top: 8px;
-  background: #ff5e5e;
-  color: white;
+  background: #ccc;
+  color: #000;
   border: none;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.cart-total {
+  font-size: 18px;
+  text-align: right;
+  margin-top: 16px;
 }

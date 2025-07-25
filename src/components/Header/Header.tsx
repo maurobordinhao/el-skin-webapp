@@ -1,4 +1,3 @@
-// src/components/Header.tsx
 import React, { useState } from 'react';
 import CartModal from '../CartModal/CartModal';
 import { useCart } from '../../contexts/CartContext';
@@ -25,33 +24,18 @@ const Header = ({ onSearch }: HeaderProps) => {
 
   return (
     <header className="header-container">
-      <div className="top-header">
-        <div className="left-section">
-          <div className="logo">AL SKIN</div>
-        </div>
+      <div className="header-top">
+        <div className="logo">AL SKIN</div>
 
-        <div className="center-section">
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="O que você está procurando?"
-              value={textoBusca}
-              onChange={handleOnChange}
-            />
-            <button className="search-button">
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
-          </div>
-        </div>
-
-        <div className="right-section">
-          <button onClick={() => setShowModal(true)} className="cart-button">
-            <FontAwesomeIcon icon={faCartShopping} />
-            {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
-          </button>
-          <span className="promo-banner">
-            Kits até <strong>50% OFF</strong>
-          </span>
+        <div className="search-wrapper">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="O que você está procurando?"
+            value={textoBusca}
+            onChange={handleOnChange}
+          />
+          <FontAwesomeIcon icon={faSearch} className="search-icon" />
         </div>
       </div>
 
