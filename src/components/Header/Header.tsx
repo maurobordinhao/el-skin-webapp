@@ -1,7 +1,8 @@
+// src/components/Header/Header.tsx
 import React, { useState } from 'react';
+import './Header.css';
 import CartModal from '../CartModal/CartModal';
 import { useCart } from '../../contexts/CartContext';
-import './Header.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faCartShopping } from '@fortawesome/free-solid-svg-icons';
@@ -14,6 +15,7 @@ const Header = ({ onSearch }: HeaderProps) => {
   const [textoBusca, setTextoBusca] = useState('');
   const { cart, showModal, setShowModal } = useCart();
 
+  // ✅ Calcula quantidade total de produtos
   const totalItems = cart.reduce((sum, item) => sum + item.quantidade, 0);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,18 +26,31 @@ const Header = ({ onSearch }: HeaderProps) => {
 
   return (
     <header className="header-container">
-      <div className="header-top">
+      <div className="top-header">
         <div className="logo">AL SKIN</div>
 
-        <div className="search-wrapper">
+        <div className="search-bar">
           <input
             type="text"
-            className="search-input"
             placeholder="O que você está procurando?"
             value={textoBusca}
             onChange={handleOnChange}
           />
-          <FontAwesomeIcon icon={faSearch} className="search-icon" />
+          <button className="search-button">
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </div>
+
+        <div className="right-section">
+          <button onClick={() => setShowModal(true)} className="cart-button">
+            <FontAwesomeIcon icon={faCartShopping} size="lg" />
+            {totalItems > 0 && (
+              <span className="cart-count">{totalItems}</span>
+            )}
+          </button>
+          <span className="promo-banner">
+            Kits até <strong>50% OFF</strong>
+          </span>
         </div>
       </div>
 
