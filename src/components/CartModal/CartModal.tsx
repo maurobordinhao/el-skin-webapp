@@ -8,7 +8,9 @@ type Props = {
 };
 
 const CartModal = ({ onClose }: Props) => {
-  const { cart, updateQuantity, removeFromCart } = useCart();
+  const { cart, updateQuantity, removeFromCart, showModal } = useCart();
+
+  if (!showModal) return null; // ← aqui está a lógica de visibilidade
 
   const totalGeral = cart.reduce(
     (acc, item) => acc + item.price * item.quantidade,
@@ -41,26 +43,11 @@ const CartModal = ({ onClose }: Props) => {
                         </strong>
                       </p>
                       <div className="quantity-controls">
-                        <button
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantidade - 1)
-                          }
-                        >
-                          -
-                        </button>
+                        <button onClick={() => updateQuantity(item.id, item.quantidade - 1)}>-</button>
                         <span>{item.quantidade}</span>
-                        <button
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantidade + 1)
-                          }
-                        >
-                          +
-                        </button>
+                        <button onClick={() => updateQuantity(item.id, item.quantidade + 1)}>+</button>
                       </div>
-                      <button
-                        onClick={() => removeFromCart(item.id)}
-                        className="remove-button"
-                      >
+                      <button onClick={() => removeFromCart(item.id)} className="remove-button">
                         Remover
                       </button>
                     </div>
@@ -71,6 +58,8 @@ const CartModal = ({ onClose }: Props) => {
               <div className="cart-total">
                 <strong>Total:</strong> R$ {totalGeral.toFixed(2)}
               </div>
+
+              <button className="checkout-button">Finalizar Compra</button>
             </>
           )}
         </div>

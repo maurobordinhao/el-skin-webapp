@@ -7,14 +7,20 @@ const api = axios.create({
   headers: API_CONFIG.DEFAULT_HEADERS,
 });
 
+const isTestEnv = process.env.NODE_ENV === 'test';
+
 // Interceptor das requisições
 api.interceptors.request.use(
-  (config) => {    
-    console.log(`[API] ${config.method?.toUpperCase()} ${config.url}`);
+  (config) => {
+    if (!isTestEnv) {
+      console.log(`[API] ${config.method?.toUpperCase()} ${config.url}`);
+    }
     return config;
   },
   (error) => {
-    console.error('[API] Erro na requisição:', error);
+    if (!isTestEnv) {
+      console.error('[API] Erro na requisição:', error);
+    }
     return Promise.reject(new Error(error.message || 'Erro na requisição'));
   }
 );
@@ -22,22 +28,25 @@ api.interceptors.request.use(
 // Interceptor das respostas
 api.interceptors.response.use(
   (response) => {
-    console.log(`[API] Resposta recebida: ${response.status}`);
+    if (!isTestEnv) {
+      console.log(`[API] Resposta recebida: ${response.status}`);
+    }
     return response;
   },
   (error) => {
-    console.error('[API] Erro na resposta:', error.response?.status, error.message);
-    
-    // Tratamento dos erros globais
-    if (error.response?.status === 401) {
-      console.error('Erro de autenticação');
-      // Redirecionamento para o login
-    } else if (error.response?.status === 500) {
-      console.error('Erro interno do servidor');
-    } else {
-      console.error('Erro desconhecido:', error.message);
+    if (!isTestEnv) {
+      console.error('[API] Erro na resposta:', error.response?.status, error.message);
+
+      // Tratamento dos erros globais
+      if (error.response?.status === 401) {
+        console.error('Erro de autenticação');
+      } else if (error.response?.status === 500) {
+        console.error('Erro interno do servidor');
+      } else {
+        console.error('Erro desconhecido:', error.message);
+      }
     }
-    
+
     return Promise.reject(new Error(error.message || 'Erro na resposta da API'));
   }
 );

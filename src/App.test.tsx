@@ -1,9 +1,10 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renderiza nome da loja AL SKIN no cabeçalho', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const header = screen.getByRole('banner');
+  const nomeLoja = within(header).getByText('AL SKIN');
+  expect(nomeLoja).toBeInTheDocument();
 });

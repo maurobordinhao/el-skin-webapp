@@ -5,7 +5,7 @@ import ProductCard from '../ProductCard/ProductCard';
 import './ProductShowcase.css';
 
 type Props = {
-  searchTerm: string;
+  searchTerm?: string;
 };
 
 const ProductShowcase = ({ searchTerm }: Props) => {
@@ -20,7 +20,7 @@ const ProductShowcase = ({ searchTerm }: Props) => {
   }, []);
 
   const filtered = products.filter((p) =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase())
+    p.name.toLowerCase().includes(searchTerm?.toLowerCase() ?? '')
   );
 
   return (
