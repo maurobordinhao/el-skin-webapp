@@ -1,42 +1,67 @@
+// src/pages/Sobre.tsx
 import React from 'react';
-import './Sobre.css';
+import styled from 'styled-components';
 import sobre1 from '../assets/sobre1.png';
 import sobre2 from '../assets/sobre2.png';
 
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+  flex-wrap: wrap;
+`;
+
+const Texto = styled.div`
+  flex: 1;
+  padding: 1rem;
+`;
+
+const Lateral = styled.div`
+  flex: 1;
+  padding: 1rem;
+`;
+
+const Img = styled.img`
+  max-width: 100%;
+  margin-top: 1rem;
+`;
+
+const Botao = styled.button`
+  margin-top: 1rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+`;
+
 function Sobre() {
   return (
-    <div className="sobre-container">
-      <div className="sobre-texto">
+    <Container>
+      <Texto>
         <h2>Sobre a AL SKIN</h2>
         <h4>QUEM SOMOS</h4>
-        <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium...
-        </p>
+        <p>...</p>
 
         <h4>POR QUE EXISTIMOS?</h4>
-        <p>
-          Neme enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit...
-        </p>
+        <p>...</p>
 
         <h4>O QUE A GENTE FAZ?</h4>
-        <p>
-          Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet...
-        </p>
+        <p>...</p>
 
-        <img src={sobre1} alt="Imagem gota" className="sobre-img" />
-      </div>
+        <Img src={sobre1} alt="Imagem gota" />
+      </Texto>
 
-      <div className="sobre-lateral">
-        <img src={sobre2} alt="Imagem tubo" className="sobre-img" />
-        <div className="sobre-contato">
+      <Lateral>
+        <Img src={sobre2} alt="Imagem tubo" />
+        <div>
           <h4>VAMOS CONVERSAR?</h4>
-          <p>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem.
-          </p>
-          <button className="btn-fale">💬 Fale conosco</button>
+          <p>...</p>
+          <Botao>💬 Fale conosco</Botao>
         </div>
-      </div>
-    </div>
+      </Lateral>
+    </Container>
   );
 }
 

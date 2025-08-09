@@ -1,3 +1,4 @@
+// src/routes.tsx
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
@@ -7,9 +8,11 @@ import Carousel from './components/Carousel/Carousel';
 import ProductShowcase from './components/ProductShowcase/ProductShowcase';
 import Sobre from './pages/Sobre';
 import NotFound from './pages/NotFound';
+import { useCart } from './contexts/CartContext'; // 👈 Adicionado
 
 const AppRoutes = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const { addToCart } = useCart(); // 👈 Adicionado
 
   return (
     <Routes>
@@ -19,7 +22,7 @@ const AppRoutes = () => {
           <>
             <Header onSearch={setSearchTerm} />
             <Carousel />
-            <ProductShowcase searchTerm={searchTerm} />
+            <ProductShowcase searchTerm={searchTerm} onAddToCart={addToCart} /> {/* 👈 Corrigido */}
             <Footer />
           </>
         }

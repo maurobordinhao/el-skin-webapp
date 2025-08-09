@@ -17,7 +17,7 @@ describe('ProductCard', () => {
   it('renderiza nome e preço do produto', () => {
     render(
       <CartProvider>
-        <ProductCard product={mockProduct} />
+        <ProductCard product={mockProduct} onAddToCart={jest.fn()} />
       </CartProvider>
     );
 

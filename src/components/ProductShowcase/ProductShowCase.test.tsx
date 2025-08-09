@@ -7,7 +7,7 @@ describe('ProductShowcase', () => {
   it('renderiza seção de destaques', () => {
     render(
       <CartProvider>
-        <ProductShowcase />
+        <ProductShowcase onAddToCart={() => {}}/>
       </CartProvider>
     );
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import './Footer.css';
+import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faInstagram, faFacebookF, faYoutube, faPinterest,
@@ -10,8 +10,8 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="footer">
-      <div className="footer-social">
+    <FooterContainer>
+      <SocialIcons>
         <FontAwesomeIcon icon={faInstagram} />
         <FontAwesomeIcon icon={faFacebookF} />
         <FontAwesomeIcon icon={faYoutube} />
@@ -19,15 +19,15 @@ const Footer = () => {
         <FontAwesomeIcon icon={faTwitter} />
         <FontAwesomeIcon icon={faLinkedinIn} />
         <FontAwesomeIcon icon={faSpotify} />
-      </div>
+      </SocialIcons>
 
-      <div className="footer-links">
+      <FooterLinks>
         <div>
           <h4>
-            <Link to="/sobre" className='footer-title-link'>
-            Sobre a AL SKIN
-            </Link>
-            </h4>
+            <StyledLink to="/sobre">
+              Sobre a AL SKIN
+            </StyledLink>
+          </h4>
           <ul>
             <li><Link to="/sobre">Quem somos</Link></li> 
             <li>Time AL SKIN</li>
@@ -56,9 +56,70 @@ const Footer = () => {
             <li>Ingredientes</li>
           </ul>
         </div>
-      </div>
-    </footer>
+      </FooterLinks>
+    </FooterContainer>
   );
 };
 
 export default Footer;
+
+// Styled Components
+
+const FooterContainer = styled.footer`
+  background-color: #f8f8f8;
+  padding: 40px 20px;
+  text-align: center;
+  color: #333;
+`;
+
+const SocialIcons = styled.div`
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+  svg {
+    font-size: 20px;
+    background: #555;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+`;
+
+const FooterLinks = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+  text-align: left;
+
+  h4 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #666;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+`;
