@@ -1,5 +1,5 @@
 // src/routes.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Header from './components/Header/Header';
@@ -8,11 +8,11 @@ import Carousel from './components/Carousel/Carousel';
 import ProductShowcase from './components/ProductShowcase/ProductShowcase';
 import Sobre from './pages/Sobre';
 import NotFound from './pages/NotFound';
-import { useCart } from './contexts/CartContext'; // 👈 Adicionado
+import { IProduct } from './service/productService';
+import { useCart } from './hooks/useCart';
 
 const AppRoutes = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const { addToCart } = useCart(); // 👈 Adicionado
+  const { addToCart } = useCart();
 
   return (
     <Routes>
@@ -20,9 +20,11 @@ const AppRoutes = () => {
         path="/"
         element={
           <>
-            <Header onSearch={setSearchTerm} />
+            <Header />
             <Carousel />
-            <ProductShowcase searchTerm={searchTerm} onAddToCart={addToCart} /> {/* 👈 Corrigido */}
+            <ProductShowcase
+              onAddToCart={(p: IProduct) => addToCart({ ...p, quantidade: 1 })}
+            />
             <Footer />
           </>
         }
@@ -31,7 +33,7 @@ const AppRoutes = () => {
         path="/sobre"
         element={
           <>
-            <Header onSearch={() => {}} />
+            <Header />
             <Sobre />
             <Footer />
           </>
@@ -41,7 +43,7 @@ const AppRoutes = () => {
         path="*"
         element={
           <>
-            <Header onSearch={() => {}} />
+            <Header />
             <NotFound />
             <Footer />
           </>

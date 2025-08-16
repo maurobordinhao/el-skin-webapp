@@ -1,105 +1,135 @@
 // src/components/Header/Header.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CartModal from '../CartModal/CartModal';
-import { useCart } from '../../contexts/CartContext';
+//import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../hooks/useCart'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { useSearch } from '../../hooks/useSearch';
 
 const HeaderContainer = styled.header`
-  padding: 1rem 2rem;
-  background: #f8f8f8;
+  width: 100%;
+  background-color: white;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 `;
 
 const TopHeader = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  flex-wrap: wrap;
+  gap: 16px;
 `;
 
 const Logo = styled.div`
-  font-size: 1.8rem;
+  font-size: 24px;
   font-weight: bold;
+  color: #1e1e1e;
 `;
 
 const SearchBar = styled.div`
+  flex: 1;
+  max-width: 500px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
   display: flex;
-  flex-grow: 1;
-  max-width: 600px;
-  margin: 0 2rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  overflow: hidden;
+  align-items: center;
+  padding: 8px 16px;
 
   input {
     flex: 1;
-    padding: 0.5rem 1rem;
+    background: none;
     border: none;
     outline: none;
-    font-size: 1rem;
+    font-size: 16px;
   }
 
   button {
-    padding: 0.5rem 1rem;
+    background: none;
     border: none;
-    background: #e5e5e5;
     cursor: pointer;
+    font-size: 18px;
+    color: #555;
   }
 `;
 
 const RightSection = styled.div`
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
 `;
 
 const CartButton = styled.button`
-  position: relative;
   background: none;
   border: none;
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
 
   .cart-count {
     position: absolute;
     top: -6px;
-    right: -6px;
+    right: -10px;
     background: red;
     color: white;
-    font-size: 0.75rem;
     border-radius: 50%;
+    font-size: 11px;
+    font-weight: bold;
     padding: 2px 6px;
   }
 `;
 
 const PromoBanner = styled.span`
-  font-size: 0.9rem;
+  font-size: 12px;
+  color: #cc0000;
+  font-weight: bold;
 `;
 
 const MenuNav = styled.nav`
   margin-top: 1rem;
+  border-top: 1px solid #eee;
+  padding: 12px 0;
+
   ul {
-    display: flex;
-    gap: 1rem;
+    list-style: none;
     padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
   }
 
   li {
-    list-style: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+
+    &:hover {
+      color: #000;
+    }
   }
 `;
 
-type HeaderProps = {
-  onSearch: (term: string) => void;
-};
-
-const Header = ({ onSearch }: HeaderProps) => {
-  const [textoBusca, setTextoBusca] = useState('');
+const Header = () => {
   const { cart, showModal, setShowModal } = useCart();
   const totalItems = cart.reduce((sum, item) => sum + item.quantidade, 0);
+  const { term, setSearch } = useSearch();
+
+  const [textoBusca, setTextoBuscaLocal] = useState(term);
+
+  useEffect(() => {
+    setTextoBuscaLocal(term);
+  }, [term]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setTextoBusca(value);
-    onSearch(value);
+    setTextoBuscaLocal(value);
+    setSearch(value);
   };
 
   return (
@@ -124,9 +154,7 @@ const Header = ({ onSearch }: HeaderProps) => {
             <FontAwesomeIcon icon={faCartShopping} size="lg" />
             {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
           </CartButton>
-          <PromoBanner>
-            Kits até <strong>50% OFF</strong>
-          </PromoBanner>
+          <PromoBanner>Kits até <strong>50% OFF</strong></PromoBanner>
         </RightSection>
       </TopHeader>
 

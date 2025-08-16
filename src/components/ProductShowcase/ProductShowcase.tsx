@@ -1,38 +1,44 @@
 // src/components/ProductShowcase/ProductShowcase.tsx
-import React, { useEffect, useState } from 'react';
-import { IProduct } from '../../service/productService';
-import { productService } from '../../service/productService';
-import ProductCard from '../ProductCard/ProductCard';
+import React, { useEffect, useMemo } from 'react';
 import styled from 'styled-components';
+import { useSearch } from '../../hooks/useSearch';
+import { useProducts } from '../../hooks/useProducts';
+import type { IProduct } from '../../types/Product';
+import ProductCard from '../ProductCard/ProductCard';
 
 type Props = {
-  searchTerm?: string;
   onAddToCart: (product: IProduct) => void;
 };
 
-const ProductShowcase = ({ searchTerm, onAddToCart }: Props) => {
-  const [products, setProducts] = useState<IProduct[]>([]);
+const ProductShowcase = ({ onAddToCart }: Props) => {
+  const { term } = useSearch();
+  const { loadProducts, filteredProducts, all, loading, error } = useProducts();
 
   useEffect(() => {
-    const fetch = async () => {
-      const data = await productService.getProducts();
-      setProducts(data);
-    };
-    fetch();
-  }, []);
+    if (!all.length) loadProducts();
+  }, [all.length, loadProducts]);
 
-  const filtered = products.filter((p) =>
-    p.name.toLowerCase().includes(searchTerm?.toLowerCase() ?? '')
-  );
+  const list = useMemo(() => filteredProducts(term), [filteredProducts, term]);
 
   return (
     <Container>
-      <Title>Destaques</Title>
-      <Grid>
-        {filtered.map((product) => (
-          <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+      <Title>Nossos queridinhos</Title>
+
+      {loading && <Status>Carregando produtos...</Status>}
+      {error && <Status role="alert">Erro: {error}</Status>}
+
+      <Grid aria-busy={loading}>
+        {list.map((product: IProduct) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            onAddToCart={onAddToCart}
+          />
         ))}
-        {filtered.length === 0 && <NoResults>Nenhum produto encontrado.</NoResults>}
+
+        {!loading && !error && list.length === 0 && (
+          <NoResults>Nenhum produto encontrado.</NoResults>
+        )}
       </Grid>
     </Container>
   );
@@ -40,8 +46,7 @@ const ProductShowcase = ({ searchTerm, onAddToCart }: Props) => {
 
 export default ProductShowcase;
 
-// Styled components
-
+// estilos mantidos
 const Container = styled.section`
   padding: 2rem;
   background-color: #f9f9f9;
@@ -74,4 +79,8 @@ const NoResults = styled.p`
   grid-column: 1 / -1;
   font-size: 1rem;
   color: #777;
+`;
+
+const Status = styled.p`
+  margin-bottom: 1rem;
 `;

@@ -1,5 +1,8 @@
 import { productService, IProduct } from '../productService';
 
+// Importa o mock depois de fazer o jest.mock
+import api from '../api';
+
 // Mock da instância `api` usada pelo productService
 jest.mock('../api', () => ({
   __esModule: true,
@@ -11,9 +14,6 @@ jest.mock('../api', () => ({
     },
   },
 }));
-
-// Importa o mock depois de fazer o jest.mock
-import api from '../api';
 
 const mockedApi = api as jest.Mocked<typeof api>;
 

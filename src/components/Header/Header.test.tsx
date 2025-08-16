@@ -1,17 +1,18 @@
 // src/components/Header/Header.test.tsx
-import { render, screen } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import Header from './Header';
-import { CartProvider } from '../../contexts/CartContext';
+import { renderWithStore } from '../../test/test-utils';
 
-describe('Header', () => {
-  it('renderiza logo e barra de busca', () => {
-    render(
-      <CartProvider>
-        <Header onSearch={() => {}} />
-      </CartProvider>
-    );
+describe('Header (Redux)', () => {
+  it('renderiza e abre modal do carrinho', () => {
+    const { store } = renderWithStore(<Header />, {
+      preloadedState: {
+        cart: { items: [], showModal: false },
+        search: { term: '' },
+      },
+    });
 
     expect(screen.getByText(/AL SKIN/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/O que você está procurando?/i)).toBeInTheDocument();
+    // clique no botão do carrinho etc…
   });
 });

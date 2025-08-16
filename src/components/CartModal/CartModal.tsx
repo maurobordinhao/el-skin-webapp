@@ -1,7 +1,11 @@
 // src/components/CartModal/CartModal.tsx
 import React from 'react';
 import styled from 'styled-components';
-import { useCart } from '../../contexts/CartContext';
+//import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../hooks/useCart';   
+
+const IMG_PLACEHOLDER =
+  'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
 type Props = {
   onClose: () => void;
@@ -31,7 +35,7 @@ const CartModal = ({ onClose }: Props) => {
               <ItemList>
                 {cart.map((item) => (
                   <Item key={item.id}>
-                    <img src={item.image} alt={item.name} />
+                    <img src={item.image || IMG_PLACEHOLDER} alt={item.name} />
                     <div>
                       <p>
                         {item.name} <br />

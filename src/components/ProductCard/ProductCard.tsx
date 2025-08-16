@@ -3,6 +3,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { IProduct } from '../../service/productService';
 
+const IMG_PLACEHOLDER =
+  'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+
 const Card = styled.div`
   border: 1px solid #ccc;
   padding: 1rem;
@@ -33,7 +36,7 @@ type Props = {
 const ProductCard = ({ product, onAddToCart }: Props) => {
   return (
     <Card>
-      <Imagem src={product.image} alt={product.name} />
+      <Imagem src={product.image || IMG_PLACEHOLDER} alt={product.name} />
       <h3>{product.name}</h3>
       <p>R$ {product.price.toFixed(2)}</p>
       <Botao onClick={() => onAddToCart(product)}>Adicionar ao carrinho</Botao>
