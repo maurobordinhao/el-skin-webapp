@@ -1,29 +1,38 @@
-import React from 'react';
 import { renderWithStore } from '../../test/test-utils';
-import { screen, act } from '@testing-library/react';
 import ProductShowcase from './ProductShowcase';
-import { clearError } from '../../store/slices/productsSlice';
+import { screen, waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 
-test('ProductShowcase: mostra mensagem de lista vazia', () => {
-  const { store } = renderWithStore(<ProductShowcase onAddToCart={() => {}} />);
-
-  act(() => {
-    store.dispatch({ type: 'products/fetchAll/fulfilled', payload: [] });
-  });
-
-  expect(screen.getByText(/Nenhum produto encontrado\./i)).toBeInTheDocument();
+beforeEach(() => {
+  (global.fetch as jest.Mock).mockReset();
 });
 
-test('ProductShowcase: mostra erro quando presente no estado', () => {
-  const { store } = renderWithStore(<ProductShowcase onAddToCart={() => {}} />);
+test('ProductShowcase: mostra mensagem de lista vazia', async () => {
+  (global.fetch as jest.Mock).mockResolvedValueOnce(
+    new Response(JSON.stringify([]), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  );
 
-  act(() => {
-    store.dispatch({ type: 'products/fetchAll/rejected', payload: 'Falha simulada' });
+  renderWithStore(<ProductShowcase onAddToCart={() => {}} />);
+
+  await waitFor(() => {
+    expect(screen.getByText(/Nenhum produto encontrado\./i)).toBeInTheDocument();
+  });
+});
+
+test('ProductShowcase: mostra erro quando a API falha', async () => {
+  (global.fetch as jest.Mock).mockResolvedValueOnce(
+    new Response('fail', { status: 500, headers: { 'Content-Type': 'text/plain' } })
+  );
+
+  renderWithStore(<ProductShowcase onAddToCart={() => {}} />);
+
+  await waitFor(() => {
+    
+    expect(screen.getByRole('alert')).toHaveTextContent(/Erro:/i);
   });
 
-  expect(screen.getByRole('alert')).toHaveTextContent(/Falha simulada/i);
-
-  act(() => {
-    store.dispatch(clearError());
-  });
+  
 });

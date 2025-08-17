@@ -1,10 +1,12 @@
 // src/components/ProductShowcase/ProductShowcase.tsx
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { useSearch } from '../../hooks/useSearch';
-import { useProducts } from '../../hooks/useProducts';
 import type { IProduct } from '../../types/Product';
 import ProductCard from '../ProductCard/ProductCard';
+
+
+import { useGetProductsQuery } from '../../store/apis/productsApi';
 
 type Props = {
   onAddToCart: (product: IProduct) => void;
@@ -12,23 +14,38 @@ type Props = {
 
 const ProductShowcase = ({ onAddToCart }: Props) => {
   const { term } = useSearch();
-  const { loadProducts, filteredProducts, all, loading, error } = useProducts();
 
-  useEffect(() => {
-    if (!all.length) loadProducts();
-  }, [all.length, loadProducts]);
+  
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+    error,
+    
+  } = useGetProductsQuery();
 
-  const list = useMemo(() => filteredProducts(term), [filteredProducts, term]);
+  
+  const list = useMemo(() => {
+    const t = (term ?? '').trim().toLowerCase();
+    if (!t) return products;
+    return products.filter((p) => p.name.toLowerCase().includes(t));
+  }, [products, term]);
+
+  
+  const errorMessage =
+    (error as any)?.data?.message ||
+    (error as any)?.error ||
+    'Erro ao carregar produtos';
 
   return (
     <Container>
       <Title>Nossos queridinhos</Title>
 
-      {loading && <Status>Carregando produtos...</Status>}
-      {error && <Status role="alert">Erro: {error}</Status>}
+      {isLoading && <Status>Carregando produtos...</Status>}
+      {isError && <Status role="alert">Erro: {errorMessage}</Status>}
 
-      <Grid aria-busy={loading}>
-        {list.map((product: IProduct) => (
+      <Grid aria-busy={isLoading}>
+        {list.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
@@ -36,7 +53,7 @@ const ProductShowcase = ({ onAddToCart }: Props) => {
           />
         ))}
 
-        {!loading && !error && list.length === 0 && (
+        {!isLoading && !isError && list.length === 0 && (
           <NoResults>Nenhum produto encontrado.</NoResults>
         )}
       </Grid>

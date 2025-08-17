@@ -2,36 +2,41 @@
 import React, { PropsWithChildren } from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import {
-  configureStore,
-  combineReducers,
-} from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
 import searchReducer from '../store/slices/searchSlice';
 import cartReducer from '../store/slices/cartSlice';
 import productsReducer from '../store/slices/productsSlice';
 
-// --- mapa de reducers de teste
+
+import { productsApi } from '../store/apis/productsApi';
+
+
 const testReducers = {
   search: searchReducer,
   cart: cartReducer,
   products: productsReducer,
+  
+  [productsApi.reducerPath]: productsApi.reducer,
 };
 
-// --- rootReducer para tipagem correta do state
+
 const rootReducer = combineReducers(testReducers);
 export type TestRootState = ReturnType<typeof rootReducer>;
 
-// Cria a store de teste (preloadedState é parcial e opcional)
+
 export function makeStore(preloadedState?: Partial<TestRootState>) {
   return configureStore({
-    reducer: rootReducer,              // <- função reducer única (ok tipado)
+    reducer: rootReducer,
+    middleware: (getDefault) =>
+      
+      getDefault().concat(productsApi.middleware),
     preloadedState: {
       search: { term: '' },
       cart: { items: [], showModal: false },
       products: { byId: {}, allIds: [], loading: false, error: null },
       ...(preloadedState ?? {}),
-    } as TestRootState,                // <- coerção segura para testes
+    } as TestRootState,
   });
 }
 
