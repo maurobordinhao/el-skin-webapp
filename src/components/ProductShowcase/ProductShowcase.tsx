@@ -1,103 +1,57 @@
-// src/components/ProductShowcase/ProductShowcase.tsx
+'use client';
+
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
-import { useSearch } from '../../hooks/useSearch';
-import type { IProduct } from '../../types/Product';
-import ProductCard from '../ProductCard/ProductCard';
+import styles from './ProductShowcase.module.css';
 
-
-import { useGetProductsQuery } from '../../store/apis/productsApi';
+import ProductCard from '@/components/ProductCard/ProductCard';
+import { useSearch } from '@/hooks/useSearch';
+import type { IProduct } from '@/service/productService';
+import { useGetProductsQuery } from '@/store/apis/productsApi';
 
 type Props = {
   onAddToCart: (product: IProduct) => void;
 };
 
-const ProductShowcase = ({ onAddToCart }: Props) => {
+export default function ProductShowcase({ onAddToCart }: Props) {
   const { term } = useSearch();
+  const { data, isLoading, isError, error } = useGetProductsQuery();
 
-  
-  const {
-    data: products = [],
-    isLoading,
-    isError,
-    error,
-    
-  } = useGetProductsQuery();
+  const products = data ?? [];
 
-  
-  const list = useMemo(() => {
+  const filtered = useMemo(() => {
     const t = (term ?? '').trim().toLowerCase();
     if (!t) return products;
     return products.filter((p) => p.name.toLowerCase().includes(t));
   }, [products, term]);
 
-  
   const errorMessage =
     (error as any)?.data?.message ||
     (error as any)?.error ||
     'Erro ao carregar produtos';
 
   return (
-    <Container>
-      <Title>Nossos queridinhos</Title>
+    <section className={styles.container}>
+      <h2 className={styles.title}>Nossos queridinhos</h2>
 
-      {isLoading && <Status>Carregando produtos...</Status>}
-      {isError && <Status role="alert">Erro: {errorMessage}</Status>}
+      {isLoading && <p className={styles.status}>Carregando produtos...</p>}
+      {isError && (
+        <p className={styles.status} role="alert">
+          Erro: {errorMessage}
+        </p>
+      )}
 
-      <Grid aria-busy={isLoading}>
-        {list.map((product) => (
+      <div className={styles.grid} aria-busy={isLoading}>
+        {filtered.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
             onAddToCart={onAddToCart}
           />
         ))}
-
-        {!isLoading && !isError && list.length === 0 && (
-          <NoResults>Nenhum produto encontrado.</NoResults>
+        {!isLoading && !isError && filtered.length === 0 && (
+          <p className={styles.status}>Nenhum produto encontrado.</p>
         )}
-      </Grid>
-    </Container>
+      </div>
+    </section>
   );
-};
-
-export default ProductShowcase;
-
-// estilos mantidos
-const Container = styled.section`
-  padding: 2rem;
-  background-color: #f9f9f9;
-`;
-
-const Title = styled.h2`
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-`;
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const NoResults = styled.p`
-  grid-column: 1 / -1;
-  font-size: 1rem;
-  color: #777;
-`;
-
-const Status = styled.p`
-  margin-bottom: 1rem;
-`;
+}

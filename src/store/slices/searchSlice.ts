@@ -1,4 +1,3 @@
-// src/store/slices/searchSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type SearchState = {
@@ -13,14 +12,14 @@ const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    setSearch(state, action: PayloadAction<string>) {
+    setTerm(state, action: PayloadAction<string>) {
       state.term = action.payload;
     },
-    clearSearch(state) {
+    clearTerm(state) {
       state.term = '';
     },
   },
 });
 
-export const { setSearch, clearSearch } = searchSlice.actions;
+export const { setTerm, clearTerm } = searchSlice.actions;
 export default searchSlice.reducer;

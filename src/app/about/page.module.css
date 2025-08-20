@@ -1,0 +1,26 @@
+.container{
+  display:flex;
+  justify-content:space-between;
+  padding:2rem;
+  flex-wrap:wrap;
+  gap:1rem;
+}
+
+.texto{ flex:1 1 320px; padding:1rem; }
+.lateral{ flex:1 1 320px; padding:1rem; }
+
+.imgWrap{ margin-top:1rem; }
+.img{ max-width:100%; height:auto; border-radius:8px; }
+
+.cta{ margin-top:1rem; }
+.botao{
+  margin-top:1rem;
+  background-color:#4caf50;
+  color:#fff;
+  border:none;
+  padding:0.75rem 1.5rem;
+  border-radius:8px;
+  font-size:1rem;
+  cursor:pointer;
+}
+.botao:hover{ filter:brightness(1.05); }

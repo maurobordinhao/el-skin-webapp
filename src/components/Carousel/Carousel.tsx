@@ -1,28 +1,31 @@
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
-import styled from 'styled-components';
-import { carouselService, ICarouselItem } from '../../service/carouselService';
+import styles from './Carousel.module.css';
 
-const Carousel = () => {
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
+import { carouselService, type ICarouselItem } from '@/service/carouselService';
+
+export default function Carousel() {
   const [slides, setSlides] = useState<ICarouselItem[]>([]);
 
   useEffect(() => {
-    const loadCarousel = async () => {
+    let alive = true;
+    (async () => {
       try {
         const data = await carouselService.getCarouselItems();
-        setSlides(data);
-      } catch (error) {
-        console.error('Erro ao carregar o carrossel:', error);
+        if (alive) setSlides(data ?? []);
+      } catch (err) {
+        console.error('Erro ao carregar o carrossel:', err);
       }
-    };
-
-    loadCarousel();
+    })();
+    return () => { alive = false; };
   }, []);
 
-  const settings = {
+  const settings: import('react-slick').Settings = {
     dots: true,
     infinite: true,
     speed: 500,
@@ -31,97 +34,33 @@ const Carousel = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
+    adaptiveHeight: false,
   };
 
+  // Fallback se o /carousel não estiver respondendo
+  const items = slides.length
+    ? slides
+    : [
+        { id: 'ph-1', title: 'Bem-vindo', subtitle: 'AL SKIN', description: 'Cuidados que combinam com você', backgroundImage: '/img1.png' },
+        { id: 'ph-2', title: 'Novidades', subtitle: 'Lançamentos', description: 'Confira os últimos produtos', backgroundImage: '/img2.png' },
+        { id: 'ph-3', title: 'Ofertas',   subtitle: 'Só hoje',    description: 'Descontos imperdíveis',      backgroundImage: '/img1.png' },
+      ];
+
   return (
-    <CarouselContainer>
-      <StyledSlider {...settings}>
-        {slides.map((slide) => (
-          <Slide key={slide.id}>
-            <img src={slide.backgroundImage} alt={slide.title} />
-            <TextOverlay>
-              <h4>{slide.subtitle}</h4>
-              <h2>{slide.title}</h2>
-              <p>{slide.description}</p>
-              <button>Comprar agora</button>
-            </TextOverlay>
-          </Slide>
+    <div className={styles.container} role="region" aria-label="Destaques">
+      <Slider {...settings}>
+        {items.map(s => (
+          <div key={s.id} className={styles.slide}>
+            <img className={styles.image} src={s.backgroundImage} alt={s.title} />
+            <div className={styles.overlay}>
+              {s.subtitle && <h4>{s.subtitle}</h4>}
+              {s.title && <h2>{s.title}</h2>}
+              {s.description && <p>{s.description}</p>}
+              <button className={styles.cta} type="button">Comprar agora</button>
+            </div>
+          </div>
         ))}
-      </StyledSlider>
-    </CarouselContainer>
+      </Slider>
+    </div>
   );
-};
-
-export default Carousel;
-
-// Styled Components
-const CarouselContainer = styled.div`
-  position: relative;
-  width: 100vw;
-  margin: 0;
-  overflow: hidden;
-`;
-
-const StyledSlider = styled(Slider)`
-  .slick-prev,
-  .slick-next {
-    z-index: 2;
-    width: 48px;
-    height: 48px;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 50%;
-
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.7);
-    }
-
-    &::before {
-      font-size: 24px;
-      color: white;
-    }
-  }
-
-  .slick-prev {
-    left: 16px;
-  }
-
-  .slick-next {
-    right: 16px;
-  }
-`;
-
-const Slide = styled.div`
-  position: relative;
-  width: 100%;
-  height: 500px;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-`;
-
-const TextOverlay = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 5%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.4);
-  color: white;
-  padding: 16px 24px;
-  border-radius: 8px;
-  max-width: 300px;
-
-  button {
-    margin-top: 12px;
-    background-color: #8f4fff;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 999px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-`;
+}

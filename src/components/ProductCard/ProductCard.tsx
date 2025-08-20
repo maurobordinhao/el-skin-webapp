@@ -1,47 +1,35 @@
-// src/components/ProductCard/ProductCard.tsx
+'use client';
+
 import React from 'react';
-import styled from 'styled-components';
-import { IProduct } from '../../service/productService';
+import styles from './ProductCard.module.css';
+import type { IProduct } from '@/service/productService';
 
 const IMG_PLACEHOLDER =
   'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-
-const Card = styled.div`
-  border: 1px solid #ccc;
-  padding: 1rem;
-  border-radius: 8px;
-  width: 200px;
-  text-align: center;
-`;
-
-const Imagem = styled.img`
-  max-width: 100%;
-  height: auto;
-`;
-
-const Botao = styled.button`
-  margin-top: 0.5rem;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 5px;
-`;
 
 type Props = {
   product: IProduct;
   onAddToCart: (product: IProduct) => void;
 };
 
-const ProductCard = ({ product, onAddToCart }: Props) => {
+export default function ProductCard({ product, onAddToCart }: Props) {
   return (
-    <Card>
-      <Imagem src={product.image || IMG_PLACEHOLDER} alt={product.name} />
-      <h3>{product.name}</h3>
-      <p>R$ {product.price.toFixed(2)}</p>
-      <Botao onClick={() => onAddToCart(product)}>Adicionar ao carrinho</Botao>
-    </Card>
+    <div className={styles.card}>
+      <img
+        className={styles.image}
+        src={product.image || IMG_PLACEHOLDER}
+        alt={product.name}
+        loading="lazy"
+      />
+      <h3 className={styles.title}>{product.name}</h3>
+      <p className={styles.price}>R$ {product.price.toFixed(2)}</p>
+      <button
+        className={styles.button}
+        onClick={() => onAddToCart(product)}
+        aria-label={`Adicionar ${product.name} ao carrinho`}
+      >
+        Adicionar ao carrinho
+      </button>
+    </div>
   );
-};
-
-export default ProductCard;
+}

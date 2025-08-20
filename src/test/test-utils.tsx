@@ -1,55 +1,51 @@
 // src/test/test-utils.tsx
 import React, { PropsWithChildren } from 'react';
-import { render } from '@testing-library/react';
+import { render, RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { configureStore, PreloadedState } from '@reduxjs/toolkit';
 
-import searchReducer from '../store/slices/searchSlice';
-import cartReducer from '../store/slices/cartSlice';
-import productsReducer from '../store/slices/productsSlice';
+import cartReducer from '@/store/slices/cartSlice';
+import productsReducer from '@/store/slices/productsSlice';
+import searchReducer from '@/store/slices/searchSlice';
+import appReducer from '@/store/slices/appSlice';
 
-
-import { productsApi } from '../store/apis/productsApi';
-
-
-const testReducers = {
-  search: searchReducer,
+const rootReducer = {
   cart: cartReducer,
   products: productsReducer,
-  
-  [productsApi.reducerPath]: productsApi.reducer,
+  search: searchReducer,
+  app: appReducer,
 };
 
+export type RootState = {
+  cart: ReturnType<typeof cartReducer>;
+  products: ReturnType<typeof productsReducer>;
+  search: ReturnType<typeof searchReducer>;
+  app: ReturnType<typeof appReducer>;
+};
 
-const rootReducer = combineReducers(testReducers);
-export type TestRootState = ReturnType<typeof rootReducer>;
-
-
-export function makeStore(preloadedState?: Partial<TestRootState>) {
+export function makeTestStore(preloadedState?: PreloadedState<RootState>) {
   return configureStore({
     reducer: rootReducer,
-    middleware: (getDefault) =>
-      
-      getDefault().concat(productsApi.middleware),
-    preloadedState: {
-      search: { term: '' },
-      cart: { items: [], showModal: false },
-      products: { byId: {}, allIds: [], loading: false, error: null },
-      ...(preloadedState ?? {}),
-    } as TestRootState,
+    preloadedState,
   });
 }
 
-export type TestAppStore = ReturnType<typeof makeStore>;
-export type TestAppDispatch = TestAppStore['dispatch'];
+type Options = RenderOptions & {
+  preloadedState?: PreloadedState<RootState>;
+};
 
 export function renderWithStore(
   ui: React.ReactElement,
-  opts?: { store?: TestAppStore; preloadedState?: Partial<TestRootState> }
+  { preloadedState, ...renderOptions }: Options = {}
 ) {
-  const store = opts?.store ?? makeStore(opts?.preloadedState);
-  const Wrapper = ({ children }: PropsWithChildren) => (
-    <Provider store={store}>{children}</Provider>
-  );
-  return { store, ...render(ui, { wrapper: Wrapper }) };
+  const store = makeTestStore(preloadedState);
+
+  function Wrapper({ children }: PropsWithChildren<{}>) {
+    return <Provider store={store}>{children}</Provider>;
+  }
+
+  return {
+    store,
+    ...render(ui, { wrapper: Wrapper, ...renderOptions }),
+  };
 }

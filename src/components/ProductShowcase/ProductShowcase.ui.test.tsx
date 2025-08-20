@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 import { renderWithStore } from '../../test/test-utils';
 import ProductShowcase from './ProductShowcase';
 import { screen, waitFor } from '@testing-library/react';

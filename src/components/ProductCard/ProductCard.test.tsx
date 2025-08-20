@@ -21,7 +21,9 @@ describe('ProductCard', () => {
     expect(screen.getByText('Produto X')).toBeInTheDocument();
     expect(screen.getByText(/R\$ 99,90|R\$ 99\.90/i)).toBeInTheDocument();
 
-    const btn = screen.getByRole('button', { name: /comprar|adicionar ao carrinho/i });
+    //const btn = screen.getByRole('button', { name: /comprar|adicionar ao carrinho/i });
+    //const btn = screen.getByRole('button', { name: /comprar|adicionar .* ao carrinho/i });
+    const btn = screen.getByLabelText(/adicionar .* ao carrinho/i);
     fireEvent.click(btn);
 
     expect(onAddToCart).toHaveBeenCalledWith(product);

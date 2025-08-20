@@ -1,17 +1,18 @@
-import React from 'react';
-import styled from 'styled-components';
+'use client';
+
+import Link from 'next/link';
+import styles from './Footer.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faInstagram, faFacebookF, faYoutube, faPinterest,
   faTwitter, faLinkedinIn, faSpotify
 } from '@fortawesome/free-brands-svg-icons';
 
-import { Link } from 'react-router-dom'; 
-
-const Footer = () => {
+export default function Footer() {
   return (
-    <FooterContainer>
-      <SocialIcons>
+    <footer className={styles.footer}>
+      {/* linha de ícones sociais */}
+      <div className={styles.social}>
         <FontAwesomeIcon icon={faInstagram} />
         <FontAwesomeIcon icon={faFacebookF} />
         <FontAwesomeIcon icon={faYoutube} />
@@ -19,107 +20,44 @@ const Footer = () => {
         <FontAwesomeIcon icon={faTwitter} />
         <FontAwesomeIcon icon={faLinkedinIn} />
         <FontAwesomeIcon icon={faSpotify} />
-      </SocialIcons>
+      </div>
 
-      <FooterLinks>
-        <div>
-          <h4>
-            <StyledLink to="/sobre">
-              Sobre a AL SKIN
-            </StyledLink>
-          </h4>
+      {/* 4 colunas */}
+      <div className={styles.grid}>
+        <div className={styles.col}>
+          <h4>Sobre a AL SKIN</h4>
           <ul>
-            <li><Link to="/sobre">Quem somos</Link></li> 
-            <li>Time AL SKIN</li>
-            <li>Carreiras</li>
+            <li><Link href="/about">Quem somos</Link></li>
+            <li><Link href="/about#time">Time AL SKIN</Link></li>
+            <li><Link href="/about#carreiras">Carreiras</Link></li>
           </ul>
         </div>
-        <div>
+
+        <div className={styles.col}>
           <h4>Loja AL SKIN</h4>
           <ul>
-            <li>Lojas físicas</li>
-            <li>Devolução</li>
+            <li><Link href="/stores">Lojas físicas</Link></li>
+            <li><Link href="/returns">Devolução</Link></li>
           </ul>
         </div>
-        <div>
+
+        <div className={styles.col}>
           <h4>Fale conosco</h4>
           <ul>
             <li><a href="mailto:oi@alskin.com.br">oi@alskin.com.br</a></li>
-            <li>Ajuda</li>
+            <li><Link href="/help">Ajuda</Link></li>
           </ul>
         </div>
-        <div>
+
+        <div className={styles.col}>
           <h4>Mais sobre a AL SKIN</h4>
           <ul>
-            <li>Blog</li>
-            <li>Minha pele</li>
-            <li>Ingredientes</li>
+            <li><Link href="/blog">Blog</Link></li>
+            <li><Link href="/skin">Minha pele</Link></li>
+            <li><Link href="/ingredients">Ingredientes</Link></li>
           </ul>
         </div>
-      </FooterLinks>
-    </FooterContainer>
+      </div>
+    </footer>
   );
-};
-
-export default Footer;
-
-// Styled Components
-
-const FooterContainer = styled.footer`
-  background-color: #f8f8f8;
-  padding: 40px 20px;
-  text-align: center;
-  color: #333;
-`;
-
-const SocialIcons = styled.div`
-  margin-bottom: 30px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-
-  svg {
-    font-size: 20px;
-    background: #555;
-    color: white;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-`;
-
-const FooterLinks = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 60px;
-  flex-wrap: wrap;
-  text-align: left;
-
-  h4 {
-    margin-bottom: 10px;
-    font-size: 16px;
-    font-weight: bold;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  li {
-    font-size: 14px;
-    margin-bottom: 6px;
-    color: #666;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-`;
-
-const StyledLink = styled(Link)`
-  color: inherit;
-  text-decoration: none;
-`;
+}

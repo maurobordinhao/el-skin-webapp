@@ -1,0 +1,31 @@
+.wrap {
+  position: relative;
+  width: min(380px, 60vw);
+}
+
+.input {
+  width: 100%;
+  background: #0f0f0f;
+  color: #eee;
+  border: 1px solid #333;
+  border-radius: 999px;
+  padding: 8px 36px 8px 12px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #25a244;
+}
+
+.clear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  color: #bbb;
+  border: 0;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
